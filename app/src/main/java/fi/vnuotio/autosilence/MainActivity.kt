@@ -7,6 +7,7 @@ import android.media.AudioManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS
+import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import fi.vnuotio.autosilence.utils.SharedPrefsHandler
 import fi.vnuotio.autosilence.utils.createNeutralPopup
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         val switch = findViewById<SwitchCompat>(R.id.statusSwitch)
         switch.setOnCheckedChangeListener { _, isChecked ->
             val isPermissionGranted = nm.isNotificationPolicyAccessGranted
+            val statusText = findViewById<TextView>(R.id.statusText)
 
             if (isChecked) {
                 if (!isPermissionGranted) {
@@ -39,10 +41,12 @@ class MainActivity : AppCompatActivity() {
                     return@setOnCheckedChangeListener
                 }
                 sph.setLastRingerMode(am.ringerMode)
+                statusText.text = resources.getText(R.string.statusEnabled)
                 // TODO: Enable background functionality
             }
             else {
                 if (isPermissionGranted) am.ringerMode = sph.getLastRingerMode()
+                statusText.text = resources.getText(R.string.statusDisabled)
                 // TODO: Disable background functionality
             }
         }
