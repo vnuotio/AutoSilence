@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">AutoSilence</string>
+    <string name="statusDefault">STATUS</string>
+    <string name="statusEnabled">Enabled</string>
+    <string name="statusDisabled">Disabled</string>
 </resources>
