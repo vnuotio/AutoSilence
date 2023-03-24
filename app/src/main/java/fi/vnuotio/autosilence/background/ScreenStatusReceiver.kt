@@ -5,6 +5,13 @@ import android.content.Context
 import android.content.Intent
 
 class ScreenStatusReceiver : BroadcastReceiver() {
+    companion object {
+        private var INSTANCE: ScreenStatusReceiver? = null
+
+        fun getInstance(): ScreenStatusReceiver {
+            return INSTANCE ?: ScreenStatusReceiver()
+        }
+    }
     override fun onReceive(p0: Context?, p1: Intent?) {
         TODO("Not yet implemented")
     }
