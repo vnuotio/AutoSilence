@@ -10,12 +10,13 @@ import android.os.IBinder
 class ScreenStatusService : Service() {
     companion object {
         private var INSTANCE: ScreenStatusService? = null
-        private lateinit var receiver: ScreenStatusReceiver
 
         fun getService(): ScreenStatusService? {
             synchronized(this) { return INSTANCE }
         }
     }
+
+    private lateinit var receiver: ScreenStatusReceiver
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         receiver = ScreenStatusReceiver.getInstance()
