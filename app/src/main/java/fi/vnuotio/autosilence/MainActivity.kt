@@ -13,16 +13,14 @@ import fi.vnuotio.autosilence.utils.SharedPrefsHandler
 import fi.vnuotio.autosilence.utils.createNeutralPopup
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var nm: NotificationManager
-    private lateinit var am: AudioManager
+    private val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    private val am = getSystemService(AUDIO_SERVICE) as AudioManager
     private lateinit var sph: SharedPrefsHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        am = getSystemService(AUDIO_SERVICE) as AudioManager
         sph = SharedPrefsHandler(applicationContext)
 
         setSwitchActions()
