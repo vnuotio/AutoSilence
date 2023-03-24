@@ -13,7 +13,7 @@ class ScreenStatusService : Service() {
         private lateinit var receiver: ScreenStatusReceiver
 
         fun getService(): ScreenStatusService? {
-            return INSTANCE
+            synchronized(this) { return INSTANCE }
         }
     }
 

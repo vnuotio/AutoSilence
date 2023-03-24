@@ -9,7 +9,7 @@ class ScreenStatusReceiver : BroadcastReceiver() {
         private var INSTANCE: ScreenStatusReceiver? = null
 
         fun getInstance(): ScreenStatusReceiver {
-            return INSTANCE ?: ScreenStatusReceiver()
+            synchronized(this) { return INSTANCE ?: ScreenStatusReceiver() }
         }
     }
     override fun onReceive(p0: Context?, p1: Intent?) {
