@@ -1,33 +1,49 @@
 package fi.vnuotio.autosilence.background
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.NotificationManager.IMPORTANCE_DEFAULT
 import android.app.Service
 import android.content.Intent
 import android.content.Intent.ACTION_SCREEN_OFF
 import android.content.Intent.ACTION_SCREEN_ON
 import android.content.IntentFilter
 import android.os.IBinder
+import fi.vnuotio.autosilence.background.ScreenStatusService.Constants.CHANNEL_ID
+
 
 class ScreenStatusService : Service() {
-    companion object {
-        private var INSTANCE: ScreenStatusService? = null
-
-        fun getService(): ScreenStatusService? {
-            synchronized(this) { return INSTANCE }
-        }
+    private object Constants {
+        const val CHANNEL_ID = "AutoSilenceNotifications"
     }
 
-    private lateinit var receiver: ScreenStatusReceiver
+    private var receiver: ScreenStatusReceiver? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        receiver = ScreenStatusReceiver.getInstance()
         val filter = IntentFilter()
-
         filter.addAction(ACTION_SCREEN_ON)
         filter.addAction(ACTION_SCREEN_OFF)
 
-        registerReceiver(receiver, filter)
+        if (receiver == null) {
+            receiver = ScreenStatusReceiver()
+            registerReceiver(receiver, filter)
+        }
 
-        return super.onStartCommand(intent, flags, startId)
+        val notificationChannel = NotificationChannel(CHANNEL_ID,
+            "AutoSilence", IMPORTANCE_DEFAULT)
+
+        (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
+            .createNotificationChannel(notificationChannel)
+
+        val notification = Notification.Builder(this, CHANNEL_ID)
+            .setContentTitle("AutoSilence Enabled")
+            .setContentText("AutoSilence has been enabled and will run in the background.")
+            .build()
+
+        startForeground(1, notification)
+
+        return START_STICKY
     }
 
     override fun onDestroy() {
