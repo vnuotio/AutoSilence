@@ -9,7 +9,7 @@ import android.content.Intent
 import android.content.Intent.ACTION_SCREEN_OFF
 import android.content.Intent.ACTION_SCREEN_ON
 import android.media.AudioManager
-import android.media.AudioManager.RINGER_MODE_SILENT
+import android.media.AudioManager.*
 import fi.vnuotio.autosilence.utils.SharedPrefsHandler
 
 class ScreenStatusReceiver : BroadcastReceiver() {
@@ -22,11 +22,17 @@ class ScreenStatusReceiver : BroadcastReceiver() {
 
         if (!nm.isNotificationPolicyAccessGranted) return
 
-        if (intent.action == ACTION_SCREEN_ON) {
-            am.ringerMode = RINGER_MODE_SILENT
-        }
-        else if (intent.action == ACTION_SCREEN_OFF) {
-            am.ringerMode = sph.getLastRingerMode()
+        when (intent.action) {
+            ACTION_SCREEN_ON ->
+                am.ringerMode = RINGER_MODE_SILENT
+
+            ACTION_SCREEN_OFF ->
+                am.ringerMode = sph.getLastRingerMode()
+
+            RINGER_MODE_CHANGED_ACTION -> {
+                val newMode = intent.getIntExtra(EXTRA_RINGER_MODE, sph.getLastRingerMode())
+                if (newMode != RINGER_MODE_SILENT) sph.setLastRingerMode(newMode)
+            }
         }
     }
 }

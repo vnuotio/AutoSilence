@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.Intent.ACTION_SCREEN_OFF
 import android.content.Intent.ACTION_SCREEN_ON
 import android.content.IntentFilter
+import android.media.AudioManager.RINGER_MODE_CHANGED_ACTION
 import android.os.IBinder
 import fi.vnuotio.autosilence.R
 import fi.vnuotio.autosilence.background.ScreenStatusService.Constants.CHANNEL_ID
@@ -25,6 +26,7 @@ class ScreenStatusService : Service() {
         val filter = IntentFilter()
         filter.addAction(ACTION_SCREEN_ON)
         filter.addAction(ACTION_SCREEN_OFF)
+        filter.addAction(RINGER_MODE_CHANGED_ACTION)
 
         if (receiver == null) {
             receiver = ScreenStatusReceiver()
