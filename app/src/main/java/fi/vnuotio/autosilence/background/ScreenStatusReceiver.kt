@@ -10,19 +10,9 @@ import android.content.Intent.ACTION_SCREEN_OFF
 import android.content.Intent.ACTION_SCREEN_ON
 import android.media.AudioManager
 import android.media.AudioManager.RINGER_MODE_SILENT
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
 import fi.vnuotio.autosilence.utils.SharedPrefsHandler
 
 class ScreenStatusReceiver : BroadcastReceiver() {
-    companion object {
-        private var INSTANCE: ScreenStatusReceiver? = null
-
-        fun getInstance(): ScreenStatusReceiver {
-            synchronized(this) { return INSTANCE ?: ScreenStatusReceiver() }
-        }
-    }
-
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
 
