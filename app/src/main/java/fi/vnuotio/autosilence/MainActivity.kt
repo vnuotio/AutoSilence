@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
             requestNotificationPermissions()
         }
         createNeutralPopup(this,
-            "Permission required",
-            "'Do not disturb' access is required for this app to function",
+            resources.getText(R.string.permissionTitle),
+            resources.getText(R.string.permissionBody),
             listener)
     }
 

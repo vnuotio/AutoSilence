@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 
-fun createNeutralPopup(context: Context, title: String, body: String,
+fun createNeutralPopup(context: Context, title: CharSequence, body: CharSequence,
                        listener: DialogInterface.OnClickListener?) {
     AlertDialog.Builder(context)
         .setTitle(title)
