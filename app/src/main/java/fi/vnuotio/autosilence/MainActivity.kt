@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.content.DialogInterface
 import android.content.Intent
 import android.media.AudioManager
+import android.media.AudioManager.RINGER_MODE_SILENT
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                     return@setOnCheckedChangeListener
                 }
                 sph.setLastRingerMode(am.ringerMode)
+                am.ringerMode = RINGER_MODE_SILENT
                 statusText.text = resources.getText(R.string.statusEnabled)
                 startForegroundService(intent)
             } // Service disabled
