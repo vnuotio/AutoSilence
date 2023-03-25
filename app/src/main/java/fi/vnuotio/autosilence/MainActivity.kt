@@ -1,5 +1,6 @@
 package fi.vnuotio.autosilence
 
+import android.app.ActivityManager
 import android.app.NotificationManager
 import android.content.DialogInterface
 import android.content.Intent
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSwitchStatus() {
-        val isEnabled = sph.isEnabled()
+        val isEnabled = isServiceRunning()
 
         statusText.text = if (isEnabled) {
             resources.getText(R.string.statusEnabled)
@@ -67,19 +68,13 @@ class MainActivity : AppCompatActivity() {
                 }
                 sph.setLastRingerMode(am.ringerMode)
                 am.ringerMode = RINGER_MODE_SILENT
-
                 statusText.text = resources.getText(R.string.statusEnabled)
-                sph.setEnabledStatus(true)
-
                 startForegroundService(intent)
             } // Service disabled
             else {
                 stopService(intent)
-
                 if (isPermissionGranted) am.ringerMode = sph.getLastRingerMode()
-
                 statusText.text = resources.getText(R.string.statusDisabled)
-                sph.setEnabledStatus(false)
             }
         }
     }
@@ -97,5 +92,13 @@ class MainActivity : AppCompatActivity() {
     private fun requestNotificationPermissions() {
         val intent = Intent(ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
         startActivity(intent)
+    }
+
+    @Suppress("DEPRECATION")
+    private fun isServiceRunning(): Boolean {
+        val actman = getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        return actman
+            .getRunningServices(Integer.MAX_VALUE)
+            .any { it -> it.service.className == ScreenStatusService::class.qualifiedName }
     }
 }
