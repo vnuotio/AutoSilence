@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
+import fi.vnuotio.autosilence.background.ScreenStatusService
 import fi.vnuotio.autosilence.utils.SharedPrefsHandler
 import fi.vnuotio.autosilence.utils.createNeutralPopup
 
@@ -33,7 +34,9 @@ class MainActivity : AppCompatActivity() {
         switch.setOnCheckedChangeListener { _, isChecked ->
             val isPermissionGranted = nm.isNotificationPolicyAccessGranted
             val statusText = findViewById<TextView>(R.id.statusText)
+            val intent = Intent(applicationContext, ScreenStatusService::class.java)
 
+            // Service enabled
             if (isChecked) {
                 if (!isPermissionGranted) {
                     switch.isChecked = false
@@ -42,12 +45,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 sph.setLastRingerMode(am.ringerMode)
                 statusText.text = resources.getText(R.string.statusEnabled)
-                // TODO: Enable background functionality
-            }
+                startForegroundService(intent)
+            } // Service disabled
             else {
+                stopService(intent)
                 if (isPermissionGranted) am.ringerMode = sph.getLastRingerMode()
                 statusText.text = resources.getText(R.string.statusDisabled)
-                // TODO: Disable background functionality
             }
         }
     }
