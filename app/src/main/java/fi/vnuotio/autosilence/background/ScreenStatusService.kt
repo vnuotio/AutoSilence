@@ -10,6 +10,7 @@ import android.content.Intent.ACTION_SCREEN_OFF
 import android.content.Intent.ACTION_SCREEN_ON
 import android.content.IntentFilter
 import android.os.IBinder
+import fi.vnuotio.autosilence.R
 import fi.vnuotio.autosilence.background.ScreenStatusService.Constants.CHANNEL_ID
 
 
@@ -37,8 +38,8 @@ class ScreenStatusService : Service() {
             .createNotificationChannel(notificationChannel)
 
         val notification = Notification.Builder(this, CHANNEL_ID)
-            .setContentTitle("AutoSilence Enabled")
-            .setContentText("AutoSilence has been enabled and will run in the background.")
+            .setContentTitle(resources.getText(R.string.notificationTitle))
+            .setContentText(resources.getText(R.string.notificationBody))
             .build()
 
         startForeground(1, notification)

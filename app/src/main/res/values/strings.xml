@@ -3,4 +3,7 @@
     <string name="statusDefault">STATUS</string>
     <string name="statusEnabled">Enabled</string>
     <string name="statusDisabled">Disabled</string>
+
+    <string name="notificationTitle">AutoSilence Enabled</string>
+    <string name="notificationBody">AutoSilence has been enabled and will run in the background.</string>
 </resources>
