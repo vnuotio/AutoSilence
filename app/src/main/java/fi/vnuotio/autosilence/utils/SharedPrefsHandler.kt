@@ -25,15 +25,4 @@ class SharedPrefsHandler(context: Context) {
             .putInt(LAST_RINGER_MODE, mode)
             .apply()
     }
-
-    fun isEnabled(): Boolean {
-        return sharedPrefs.getBoolean(IS_ENABLED, false)
-    }
-
-    fun setEnabledStatus(status: Boolean) {
-        sharedPrefs
-            .edit()
-            .putBoolean(IS_ENABLED, status)
-            .apply()
-    }
 }
